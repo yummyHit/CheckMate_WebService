@@ -1,0 +1,37 @@
+<div class="login-page" [@routerTransition]>
+    <div class="row">
+        <div class="col-md-4 push-md-4">
+            <img class="user-avatar" src="assets/images/CheckMate.png" width="150px" />
+            <h1>CheckMate Service</h1>
+            <form role="form">
+                <div class="form-content">
+                    <div class="form-group">
+                	<select placeholder="Company Name" (change)="changeCompany($event)" name="signup.companyName">
+			            <option selected disabled>Company Name</option>
+                        <option *ngFor="let company of companyList" name="signup.company">{{company.name}}</option>
+                	</select>
+                        <input type="text" class="form-control input-underline input-lg" id="signup.company" placeholder="Choose Your Company" readonly>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control input-underline input-lg" id="signup.email" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control input-underline input-lg" id="signup.idNumber" placeholder="Employee Number">
+                    </div>
+                    <div class="form-group"> 
+			<input type="text" class="form-control input-underline input-lg" id="signup.name" placeholder="Full Name">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control input-underline input-lg" id="signup.password" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control input-underline input-lg" id="signup.chkpassword" placeholder="Repeat Password">
+                    </div>
+                </div>
+                <a class="btn rounded-btn" (click)="signupEmail()">Register</a>
+                &nbsp;
+                <a class="btn rounded-btn" (click)="signupBackBtn()">Back</a>
+            </form>
+        </div>
+    </div>
+</div>

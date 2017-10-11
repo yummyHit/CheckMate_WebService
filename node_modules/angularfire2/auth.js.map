@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/auth.ts"],"names":[],"mappings":"AAAA,cAAc,aAAa,CAAC;AAC5B,cAAc,oBAAoB,CAAC","file":"auth.js","sourceRoot":"","sourcesContent":["export * from './auth/auth';\nexport * from './auth/auth.module';\n"]}

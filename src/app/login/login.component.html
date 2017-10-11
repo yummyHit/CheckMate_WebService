@@ -1,0 +1,24 @@
+<div class="login-page" [@routerTransition]>
+    <div class="row">
+        <div class="col-md-4 push-md-4">
+            <img src="assets/images/CheckMate.png" width="150px" class="user-avatar" />
+            <h1>CheckMate Service</h1>
+            <form role="form">
+                <div class="form-content">
+                    <div class="form-group">
+                        <input type="text" class="form-control input-underline input-lg" id="login.email" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control input-underline input-lg" id="login.password" placeholder="Password">
+                    </div>
+		            <div class="form-group">
+    	            	<a class="btn rounded-btn" (click)="loginEmail()" id="login-email">Log in</a>
+       	          	    &nbsp;
+      			        <a class="btn rounded-btn" (click)="loginGoogle()" id="login-google">&nbsp;&nbsp;&nbsp;with Google</a>
+		            </div>
+                </div>
+        	<a routerLink="/signup" routerLinkActive="active" class="alc">No account? <strong>Create one here</strong></a>
+            </form>
+        </div>
+    </div>
+</div>

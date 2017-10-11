@@ -1,0 +1,49 @@
+<nav class="sidebar" [ngClass]="{sidebarPushRight: isActive}">
+    <ul class="list-group">
+        <a routerLink="/layout/home" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-desktop"></i>&nbsp;{{ 'Home' | translate }}
+        </a>
+        <div class="nested-menu">
+            <a class="list-group-item" (click)="addExpandClass('pages')">
+                <span><i class="fa fa-fw fa-table"></i>&nbsp;{{ 'Data Management' | translate }}</span>
+            </a>
+            <li class="nested" [class.expand]="showMenu === 'pages'">
+                <ul class="submenu">
+                    <li>
+                        <a [routerLink]="['/layout/datas']" [routerLinkActive]="['router-link-active']" ><span>{{ 'Data Check' | translate }}</span></a>
+                    </li>
+                </ul>
+            </li>
+        </div>
+        <div class="nested-menu">
+            <a class="list-group-item" (click)="addExpandClass('pages')">
+                <span><i class="fa fa-fw fa-edit"></i>&nbsp;{{ 'Scheduler' | translate }}</span>
+            </a>
+            <li class="nested" [class.expand]="showMenu === 'pages'">
+                <ul class="submenu">
+                    <li>
+                        <a [routerLink]="['/layout/scheduler']" [routerLinkActive]="['router-link-active']"><span>{{ 'Schedule Check' | translate }}</span></a>
+                    </li>
+                </ul>
+            </li>
+        </div>
+        <div class="nested-menu">
+            <a class="list-group-item" (click)="addExpandClass('pages')">
+                <span><i class="fa fa-fw fa-envelope"></i>&nbsp;{{ 'Q&A' | translate }}</span>
+            </a>
+            <li class="nested" [class.expand]="showMenu === 'pages'">
+                <ul class="submenu">
+                    <li>
+                        <a [routerLink]="['/layout/qna']" [routerLinkActive]="['router-link-active']"><span>{{ 'Contact us' | translate }}</span></a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/layout/qna']" [routerLinkActive]="['router-link-active']"><span>{{ 'Subscribe' | translate }}</span></a>
+                    </li>
+                </ul>
+            </li>
+        </div>
+        <a [routerLink]="['/layout/about']" [routerLinkActive]="['router-link-active']" class="list-group-item more-themes">
+            {{ 'About' | translate }}
+        </a>
+    </ul>
+</nav>
