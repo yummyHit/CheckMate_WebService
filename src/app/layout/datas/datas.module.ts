@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChartsModule as Ng2Charts } from 'ng2-charts';
-import { HotTableModule } from 'angular-handsontable';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 import { DatasRoutingModule } from './datas-routing.module';
 import { DatasComponent } from './datas.component';
@@ -11,7 +11,7 @@ import { PageHeaderModule } from '../../shared';
     imports: [
         CommonModule,
         Ng2Charts,
-        HotTableModule,
+        NgxDatatableModule,
         DatasRoutingModule,
         PageHeaderModule
     ],

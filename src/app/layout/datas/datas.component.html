@@ -1,6 +1,25 @@
 <div [@routerTransition]>
     <app-page-header [heading]="'Datas'" [icon]="'fa-bar-chart-o'"></app-page-header>
-<div class="row"><hot-table></hot-table></div>
+    <div class="row">
+        <input
+            type='text'
+            style='padding:8px;margin:15px auto;width:30%;'
+            placeholder='Filtering to Product, Serial, Building column...'
+            (keyup)='updateFilter($event)'
+        />
+        <ngx-datatable #table [rows]="rows" [rowHeight]="'auto'">
+            <ngx-datatable-column name="ID" [width]="80" prop="ID"></ngx-datatable-column>
+            <ngx-datatable-column name="Company" [width]="100"></ngx-datatable-column>
+            <ngx-datatable-column name="Product" [width]="120"></ngx-datatable-column>
+            <ngx-datatable-column name="Verbose" [width]="250"></ngx-datatable-column>
+            <ngx-datatable-column name="Serial" [width]="180"></ngx-datatable-column>
+            <ngx-datatable-column name="Building" [width]="120"></ngx-datatable-column>
+            <ngx-datatable-column name="Floor" [width]="60"></ngx-datatable-column>
+            <ngx-datatable-column name="Room" [width]="80"></ngx-datatable-column>
+            <ngx-datatable-column name="Date" [width]="120"></ngx-datatable-column>
+            <ngx-datatable-column name="Price" [width]="150"></ngx-datatable-column>
+        </ngx-datatable>
+    </div>
     <div class="row">
         <div class="col col-sm-6">
             <div class="card mb-3">

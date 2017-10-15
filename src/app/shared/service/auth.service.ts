@@ -16,6 +16,8 @@ export class AuthService{
     private idNumber: string;
     private position: string;
     private companyAuth: boolean;
+    private QRkey: any[];
+    private QRdata: any[][];
 
     constructor(private afAuth: AngularFireAuth, private db: AngularFireDatabase, private router: Router) {
         this.authState = this.afAuth.authState
@@ -215,6 +217,7 @@ export class AuthService{
                 })
             })
             .then(() => {
+		        this.QRDataSetting(user);
                 this.router.navigate(['/layout'])
             })
         }
@@ -248,6 +251,32 @@ export class AuthService{
         })
     }
 
+    private QRDataSetting(user: any) {
+        let qrPath = `QR/${user.companyName}`;
+        this.db.list(qrPath, { preserveSnapshot: true }).subscribe(snapshots => {
+            snapshots.forEach(snapshot => {
+                this.QRkey.push(snapshot.key);
+            })
+            for(let i = 0; i < this.QRkey.length; i++) {
+                this.QRdata[i] = [];
+                this.db.object(qrPath + "/" + this.QRkey[i]).take(1).subscribe(data => {
+                    this.QRdata[i].push(
+                        data.adminID,
+                        data.companyName,
+                        data.productName,
+                        data.detailedProductName,
+                        data.serialNumber,
+                        data.building,
+                        data.floor,
+                        data.roomName,
+                        data.date,
+                        data.price
+                    )
+                })
+            }
+        })
+    }
+
     logout(): void {
         this.afAuth.auth.signOut()
             .catch(error => {
@@ -270,7 +299,9 @@ export class AuthService{
         this.idNumber = null;
         this.userName = null;
         this.position = null;
-	    this.companyAuth = false;
+        this.companyAuth = false;
+        this.QRkey = [];
+        this.QRdata = [];
     }
 
     getNowUserEmail() {
@@ -288,5 +319,13 @@ export class AuthService{
 
     getLoginAuth() {
     	return this.companyAuth;
+    }
+
+    getQRKey() {
+        return this.QRkey;
+    }
+
+    getQRData() {
+        return this.QRdata;
     }
 }
