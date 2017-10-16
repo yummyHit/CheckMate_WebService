@@ -1,0 +1,1 @@
+//# sourceMappingURL=resizeEvent.interface.js.map

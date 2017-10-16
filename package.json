@@ -24,6 +24,7 @@
     "@ngx-translate/core": "^7.2.0",
     "@ngx-translate/http-loader": "^0.1.0",
     "@swimlane/ngx-datatable": "^10.2.3",
+    "angular-calendar": "^0.21.2",
     "angular-handsontable": "^1.0.0-beta3",
     "angular2-flash-messages": "^1.0.8",
     "angularfire2": "^4.0.0-rc0",

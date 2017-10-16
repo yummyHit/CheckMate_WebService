@@ -4,10 +4,10 @@
             <i class="fa fa-fw fa-desktop"></i>&nbsp;{{ 'Home' | translate }}
         </a>
         <div class="nested-menu">
-            <a class="list-group-item" (click)="addExpandClass('pages')">
+            <a class="list-group-item" (click)="addExpandClass('datas')">
                 <span><i class="fa fa-fw fa-table"></i>&nbsp;{{ 'Data Management' | translate }}</span>
             </a>
-            <li class="nested" [class.expand]="showMenu === 'pages'">
+            <li class="nested" [class.expand]="showMenu === 'datas'">
                 <ul class="submenu">
                     <li>
                         <a [routerLink]="['/layout/datas']" [routerLinkActive]="['router-link-active']" ><span>{{ 'Data Check' | translate }}</span></a>
@@ -16,10 +16,10 @@
             </li>
         </div>
         <div class="nested-menu">
-            <a class="list-group-item" (click)="addExpandClass('pages')">
+            <a class="list-group-item" (click)="addExpandClass('scheduler')">
                 <span><i class="fa fa-fw fa-edit"></i>&nbsp;{{ 'Scheduler' | translate }}</span>
             </a>
-            <li class="nested" [class.expand]="showMenu === 'pages'">
+            <li class="nested" [class.expand]="showMenu === 'scheduler'">
                 <ul class="submenu">
                     <li>
                         <a [routerLink]="['/layout/scheduler']" [routerLinkActive]="['router-link-active']"><span>{{ 'Schedule Check' | translate }}</span></a>
@@ -28,16 +28,16 @@
             </li>
         </div>
         <div class="nested-menu">
-            <a class="list-group-item" (click)="addExpandClass('pages')">
+            <a class="list-group-item" (click)="addExpandClass('qna')">
                 <span><i class="fa fa-fw fa-envelope"></i>&nbsp;{{ 'Q&A' | translate }}</span>
             </a>
-            <li class="nested" [class.expand]="showMenu === 'pages'">
+            <li class="nested" [class.expand]="showMenu === 'qna'">
                 <ul class="submenu">
                     <li>
-                        <a [routerLink]="['/layout/qna']" [routerLinkActive]="['router-link-active']"><span>{{ 'Contact us' | translate }}</span></a>
+                        <a [routerLink]="['/layout/qna']"><span>{{ 'Contact us' | translate }}</span></a>
                     </li>
                     <li>
-                        <a [routerLink]="['/layout/qna']" [routerLinkActive]="['router-link-active']"><span>{{ 'Subscribe' | translate }}</span></a>
+                        <a [routerLink]="['/layout/qna']"><span>{{ 'Subscribe' | translate }}</span></a>
                     </li>
                 </ul>
             </li>
