@@ -19,6 +19,8 @@ $ npm install
 $ npm install angularfire2 firebase @angular/cli --save
 # Our main service is data management using by web spread sheet. It used ngx-datatable.
 $ npm install @swimlane/ngx-datatable --save
+# And we support to scheduler with angular-calendar. So you must install it.
+$ npm install angular-calendar --save
 # watches your files and uses livereload by default run `npm start` for a dev server. Navigate to my server `http://yummyhit.dynu.net:4201/`. The app will automatically reload if you change any of the source files.
 $ npm start
 # If you need background process with log, you can write this command
