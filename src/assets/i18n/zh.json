@@ -15,5 +15,8 @@
     "Japanese": "日本语",
     "Chinese": "中文",
     "Profile" : "轮廓",
-    "Log Out" : "登出"
+    "Log Out" : "登出",
+    "Add" : "加",
+    "Update" : "更新",
+    "Delete" : "删除"
 }

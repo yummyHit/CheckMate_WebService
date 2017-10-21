@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
+import { LoadingSpinnerComponent } from '../ui/loading-spinner/loading-spinner.component';
 import { LoginRoutingModule } from './login-routing.module';
 import { LoginComponent } from './login.component';
 
@@ -9,7 +10,10 @@ import { LoginComponent } from './login.component';
         CommonModule,
         LoginRoutingModule
     ],
-    declarations: [LoginComponent]
+    declarations: [
+        LoginComponent,
+        LoadingSpinnerComponent
+    ]
 })
 export class LoginModule {
 }

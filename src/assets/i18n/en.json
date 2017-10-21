@@ -15,5 +15,8 @@
     "Japanese": "Japanese",
     "Chinese": "Chinese",
     "Profile" : "Profile",
-    "Log Out" : "Log Out"
+    "Log Out" : "Log Out",
+    "Add" : "Add",
+    "Update" : "Update",
+    "Delete" : "Delete"
 }

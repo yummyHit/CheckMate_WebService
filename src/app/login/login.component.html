@@ -1,9 +1,9 @@
-<div class="login-page" [@routerTransition]>
-    <div class="row">
-        <div class="col-md-4 push-md-4">
+<div class="login-page" [@routerTransition]> 
+    <div class="row"> 
+        <div class="col-md-4 push-md-4"> 
             <img src="assets/images/CheckMate.png" width="150px" class="user-avatar" />
             <h1>CheckMate Service</h1>
-            <form role="form">
+            <form role="form" *ngIf="!showSpinner; else loading">
                 <div class="form-content">
                     <div class="form-group">
                         <input type="text" class="form-control input-underline input-lg" id="login.email" placeholder="Email">
@@ -19,6 +19,10 @@
                 </div>
         	<a routerLink="/signup" routerLinkActive="active" class="alc">No account? <strong>Create one here</strong></a>
             </form>
+            <ng-template #loading>
+                <br><br><app-loading-spinner></app-loading-spinner><br><br><br>
+                <h3>Loading to login...</h3>
+            </ng-template>
         </div>
     </div>
 </div>

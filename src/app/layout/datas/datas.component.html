@@ -1,23 +1,115 @@
 <div [@routerTransition]>
     <app-page-header [heading]="'Datas'" [icon]="'fa-bar-chart-o'"></app-page-header>
     <div class="row">
-        <input
-            type='text'
-            style='padding:8px;margin:15px auto;width:30%;'
-            placeholder='Filtering to Product, Serial, Building column...'
-            (keyup)='updateFilter($event)'
-        />
-        <ngx-datatable #table [rows]="rows" [rowHeight]="'auto'">
-            <ngx-datatable-column name="ID" [width]="80" prop="ID"></ngx-datatable-column>
-            <ngx-datatable-column name="Company" [width]="100"></ngx-datatable-column>
-            <ngx-datatable-column name="Product" [width]="120"></ngx-datatable-column>
-            <ngx-datatable-column name="Verbose" [width]="250"></ngx-datatable-column>
-            <ngx-datatable-column name="Serial" [width]="180"></ngx-datatable-column>
-            <ngx-datatable-column name="Building" [width]="120"></ngx-datatable-column>
-            <ngx-datatable-column name="Floor" [width]="60"></ngx-datatable-column>
-            <ngx-datatable-column name="Room" [width]="80"></ngx-datatable-column>
-            <ngx-datatable-column name="Date" [width]="120"></ngx-datatable-column>
-            <ngx-datatable-column name="Price" [width]="150"></ngx-datatable-column>
-        </ngx-datatable>
+        <div class="col-md-8">Search :   
+            <input type='text' style='padding:8px;margin:15px auto;width:80%;' placeholder='Filtering to Product, Serial, Building column...' (keyup)='updateFilter($event)'/>
+        </div>
+        <div class="col-md-4 text-right">
+            <a class="btn" style='padding:8px;margin:15px' (click)="datasAdd()" *ngIf="!addStatus">Add </a>
+            <a class="btn" style='padding:8px;margin:15px' (click)="datasRemove()">Delete</a>
+        </div>
     </div>
+    <ngx-datatable class="material" [columnMode]="'force'" [rows]="addRows" [headerHeight]="50" [footerHeight]="0" [rowHeight]="55" *ngIf="addStatus">
+        <ngx-datatable-column name="Product" [resizeable]="false" [sortable]="false">
+          <ng-template ngx-datatable-cell-template>
+            <input type="text" style="padding-left:0px;" class="form-control form-control-sm" id="datas.addProduct" placeholder="ex)Laptop">
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="More Info" [resizeable]="false" [sortable]="false">
+          <ng-template ngx-datatable-cell-template>
+            <input type="text" style="padding-left:0px;" class="form-control form-control-sm" id="datas.addDetailed" placeholder="ex)It is..">
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Serial" [resizeable]="false" [sortable]="false">
+          <ng-template ngx-datatable-cell-template>
+            <input type="text" style="padding-left:0px;" class="form-control form-control-sm" id="datas.addSerial" placeholder="ex)20001005">
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Building" [resizeable]="false" [sortable]="false">
+          <ng-template ngx-datatable-cell-template>
+            <input type="text" style="padding-left:0px;" class="form-control form-control-sm" id="datas.addBuilding" placeholder="ex)Name">
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Floor" [resizeable]="false" [sortable]="false">
+          <ng-template ngx-datatable-cell-template>
+            <input type="text" style="padding-left:0px;" class="form-control form-control-sm" id="datas.addFloor" placeholder="ex)3rd">
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Room" [resizeable]="false" [sortable]="false">
+          <ng-template ngx-datatable-cell-template>
+            <input type="text" style="padding-left:0px;" class="form-control form-control-sm" id="datas.addRoom" placeholder="ex)312">
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Date" [resizeable]="false" [sortable]="false">
+          <ng-template ngx-datatable-cell-template>
+            <input type="text" style="padding-left:0px;" class="form-control form-control-sm" id="datas.addDate" placeholder="ex)2000-10-03">
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Price" [resizeable]="false" [sortable]="false">
+          <ng-template ngx-datatable-cell-template>
+            <input type="text" style="padding-left:0px;" class="form-control form-control-sm" id="datas.addPrice" placeholder="ex)30,000">
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [width]="65" [resizeable]="false" [sortable]="false" [draggable]="false" [canAutoResize]="false" [frozenRight]="true">
+          <ng-template ngx-datatable-cell-template>
+            <a style="margin:0px;padding:0px;" class="btn" (click)="datasAdd()">Add</a>
+          </ng-template>
+        </ngx-datatable-column>
+    </ngx-datatable><br />
+    <ngx-datatable class="material expandable" [columnMode]="'force'" #myTable [rows]="rows" [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [selectionType]="'checkbox'" (select)='onSelect($event)'>
+        <ngx-datatable-row-detail [rowHeight]="165"> 
+          <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+            <div style="padding-left:35px;">
+                 <div title="Double click to edit" (dblclick)="editing[row['key'] + '-ID'] = true" *ngIf="!editing[row['key'] + '-ID']">ID : {{row['ID']}}</div>
+                 <input autofocus (blur)="updateDetailValue($event, 'ID', row['key'])" *ngIf="editing[row['key'] + '-ID']" type="text" [value]="row['ID']"/>
+                 <div title="Double click to edit" (dblclick)="editing[row['key'] + '-verbose'] = true" *ngIf="!editing[row['key'] + '-verbose']">Verbose : {{row['verbose']}}</div>
+                 <input autofocus (blur)="updateDetailValue($event, 'verbose', row['key'])" *ngIf="editing[row['key'] + '-verbose']" type="text" [value]="row['verbose']"/>
+                 <div title="Double click to edit" (dblclick)="editing[row['key'] + '-floor'] = true" *ngIf="!editing[row['key'] + '-floor']">Floor : {{row['floor']}}</div>
+                 <input autofocus (blur)="updateDetailValue($event, 'floor', row['key'])" *ngIf="editing[row['key'] + '-floor']" type="text" [value]="row['floor']"/>
+                 <div title="Double click to edit" (dblclick)="editing[row['key'] + '-room'] = true" *ngIf="!editing[row['key'] + '-room']">Room : {{row['room']}}</div>
+                 <input autofocus (blur)="updateDetailValue($event, 'room', row['key'])" *ngIf="editing[row['key'] + '-room']" type="text" [value]="row['room']"/>
+                 <div title="Double click to edit" (dblclick)="editing[row['key'] + '-date'] = true" *ngIf="!editing[row['key'] + '-date']">Date : {{row['date']}}</div>
+                 <input autofocus (blur)="updateDetailValue($event, 'date', row['key'])" *ngIf="editing[row['key'] + '-date']" type="text" [value]="row['date']"/>
+                 <div title="Double click to edit" (dblclick)="editing[row['key'] + '-price'] = true" *ngIf="!editing[row['key'] + '-price']">Price : {{row['price']}}</div>
+                 <input autofocus (blur)="updateDetailValue($event, 'price', row['key'])" *ngIf="editing[row['key'] + '-price']" type="text" [value]="row['price']"/>
+            </div>
+          </ng-template>
+        </ngx-datatable-row-detail>
+        <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false" [canAutoResize]="false">
+          <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+            <a [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded" title="Expand/Collapse Row" (click)="toggleExpandRow(row)"></a>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Index">
+          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+            <strong>{{rowIndex}}</strong>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Product" prop="product" [sortable]="false">
+          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+            <span title="Double click to edit" (dblclick)="editing[rowIndex + '-product'] = true" *ngIf="!editing[rowIndex + '-product']">
+              <strong>{{value}}</strong>
+            </span>
+            <input autofocus (blur)="updateValue($event, 'product', rowIndex)" *ngIf="editing[rowIndex+ '-product']" type="text" [value]="value"/>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Serial" [sortable]="false">
+          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+            <span title="Double click to edit" (dblclick)="editing[rowIndex + '-serial'] = true" *ngIf="!editing[rowIndex + '-serial']">
+              <strong>{{value}}</strong>
+            </span>
+            <input autofocus (blur)="updateValue($event, 'serial', rowIndex)" *ngIf="editing[rowIndex+ '-serial']" type="text" [value]="value"/>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Building" [sortable]="fasle">
+          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+            <span title="Double click to edit" (dblclick)="editing[rowIndex + '-building'] = true" *ngIf="!editing[rowIndex + '-building']">
+              <strong>{{value}}</strong>
+            </span>
+            <input autofocus (blur)="updateValue($event, 'building', rowIndex)" *ngIf="editing[rowIndex+ '-building']" type="text" [value]="value"/>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false" [canAutoResize]="false" [checkboxable]="true">
+        </ngx-datatable-column>
+    </ngx-datatable>
 </div>

@@ -254,9 +254,12 @@ export class AuthService{
     private QRDataSetting(user: any) {
         let qrPath = `QR/${user.companyName}`;
         this.db.list(qrPath, { preserveSnapshot: true }).subscribe(snapshots => {
+            this.QRkey = [];
+            this.QRdata = [];
             snapshots.forEach(snapshot => {
                 this.QRkey.push(snapshot.key);
             })
+            console.log(this.QRkey.length);
             for(let i = 0; i < this.QRkey.length; i++) {
                 this.QRdata[i] = [];
                 this.db.object(qrPath + "/" + this.QRkey[i]).take(1).subscribe(data => {
@@ -275,6 +278,43 @@ export class AuthService{
                 })
             }
         })
+    }
+
+    updateQRDatas(datas: any[], key: string) {
+        let qrData = {
+            productName: datas['product'],
+            detailedProductName: datas['verbose'],
+            serialNumber: datas['serial'],
+            companyName: datas['company'],
+            building: datas['building'],
+            floor: datas['floor'],
+            roomName: datas['room'],
+            date: datas['date'],
+            adminID: datas['ID'],
+            price: datas['price']
+        }
+        if(key === "empty") {
+            this.db.list(`QR/${this.companyName}`).push(qrData)
+        } else {
+            this.db.object(`QR/${this.companyName}/${key}`).update(qrData)
+                .catch(error => {
+                    console.log(error),
+                    alert("updateQRDatas Error")
+                })
+        }
+    }
+
+    removeQRData(key: string[]) {
+        if(confirm('Are you sure delete selected datas?')) {
+            for(let i = 0; i < key.length; i++) {
+                this.db.object(`QR/${this.companyName}`).$ref.child(key[i]).remove()
+                    .catch(error => {
+                        console.log(error),
+                        alert("removeQRData Error")
+                    })
+            }
+            return true;
+        } else return false;
     }
 
     logout(): void {
@@ -311,6 +351,10 @@ export class AuthService{
 
     getUserName() {
         return this.userName;
+    }
+
+    getCompanyName() {
+        return this.companyName;
     }
 
     getAuthState() {

@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --ec true --port 4201 --host yummyhit.dynu.net",
+    "start": "ng serve --ec true --port 4567 --host yummyhit.dynu.net",
     "build": "ng build --prod",
     "lint": "ng lint"
   },

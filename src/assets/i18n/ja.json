@@ -15,5 +15,8 @@
     "Japanese": "日本語",
     "Chinese": "中国語",
     "Profile" : "プロフィール",
-    "Log Out" : "ログアウト"
+    "Log Out" : "ログアウト",
+    "Add" : "追加する",
+    "Update" : "更新",
+    "Delete" : "削除"
 }
