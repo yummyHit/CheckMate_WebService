@@ -23,6 +23,10 @@ export class DatasComponent implements OnInit {
     editing = {};
     addStatus: boolean;
 
+    qrType: 'url' | 'canvas' | 'img' = 'url';
+    qrCodes: string[];
+    qrcodeStatus: boolean;
+
     @ViewChild('myTable') table: any;
 
     constructor(private afAuth: AuthService, private router: Router) {
@@ -38,10 +42,9 @@ export class DatasComponent implements OnInit {
         else {
             this.QRKey = this.afAuth.getQRKey();
             this.QRData = this.afAuth.getQRData();
-            console.log(this.QRKey.length);
-            console.log(this.QRData);
             for(let i = 0; i < this.QRKey.length; i++) {
                 this.rows.push({
+                    index: i,
                     key: this.QRKey[i],
                     ID: this.QRData[i][0],
                     company: this.QRData[i][1],
@@ -56,6 +59,10 @@ export class DatasComponent implements OnInit {
                 })
             }
             this.temp2 = this.rows;
+            for(let i = 0; i < this.temp2.length; i++) {
+                this.qrCodes.push("Welcome to QR Code!!\n" + this.temp2[i]['company'] + " / " + this.temp2[i]['ID'] + "\nName: " + this.temp2[i]['product'] + "\nVerbose: " + this.temp2[i]['verbose'] + "\nSerial: " + this.temp2[i]['serial'] + "\nBuilding: " + this.temp2[i]['building'] + "\nFloor: " + this.temp2[i]['floor'] + "\nRoom: " + this.temp2[i]['room'] + "\nDate: " + this.temp2[i]['date'] + "\nPrice: " + this.temp2[i]['price'])
+            }
+            console.log(this.qrCodes);
         }
     }
 
@@ -123,6 +130,7 @@ export class DatasComponent implements OnInit {
         else {
             alert("Data Add Successfully!!");
             this.afAuth.updateQRDatas(this.temp2[this.temp2.length - 1], "empty");
+            this.qrCodes.push(this.temp2[this.temp2.length - 1]['company'] + " / " + this.temp2[this.temp2.length - 1]['ID'] + "\nName: " + this.temp2[this.temp2.length - 1]['product'] + "\nVerbose: " + this.temp2[this.temp2.length - 1]['verbose'] + "\nSerial: " + this.temp2[this.temp2.length - 1]['serial'] + "\nBuilding: " + this.temp2[this.temp2.length - 1]['building'] + "\nFloor: " + this.temp2[this.temp2.length - 1]['floor'] + "\nRoom: " + this.temp2[this.temp2.length - 1]['room'] + "\nDate: " + this.temp2[this.temp2.length - 1]['date'] + "\nPrice: " + this.temp2[this.temp2.length - 1]['price'])
             this.rows = this.temp2;
             this.addStatus = false;
         }
@@ -146,6 +154,16 @@ export class DatasComponent implements OnInit {
     }
   }
 
+  datasPrint() {
+    this.qrcodeStatus = true;
+    if(this.selected.length !== 0) {
+      console.log(this.qrCodes);
+      this.selected = [];
+    } else {
+      alert("Nothing was Selected!!");
+    }
+  }
+
   datasClear() {
     this.QRKey = [];
     this.QRData = [];
@@ -154,5 +172,7 @@ export class DatasComponent implements OnInit {
     this.temp2 = [];
     this.selected = [];
     this.addStatus = false;
+    this.qrCodes = [];
+    this.qrcodeStatus = false;
   }
 }

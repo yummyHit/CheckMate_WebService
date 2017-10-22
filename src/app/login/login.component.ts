@@ -31,13 +31,14 @@ export class LoginComponent implements OnInit {
     }
 
     loginEmail() {
+        this.showSpinner = true;
 	    this.email = (<HTMLInputElement>document.getElementById("login.email")).value;
 	    this.password = (<HTMLInputElement>document.getElementById("login.password")).value;
         this.afAuth.loginEmail(this.email, this.password);
         this.loginClear();
         (<HTMLInputElement>document.getElementById("login.email")).value = null;
 	    (<HTMLInputElement>document.getElementById("login.password")).value = null;
-        this.showSpinner = true;
+        Observable.interval(5000).take(1).subscribe(() => this.showSpinner = false)
     }
 
     loginClear() {

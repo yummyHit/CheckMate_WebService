@@ -259,7 +259,6 @@ export class AuthService{
             snapshots.forEach(snapshot => {
                 this.QRkey.push(snapshot.key);
             })
-            console.log(this.QRkey.length);
             for(let i = 0; i < this.QRkey.length; i++) {
                 this.QRdata[i] = [];
                 this.db.object(qrPath + "/" + this.QRkey[i]).take(1).subscribe(data => {

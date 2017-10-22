@@ -7,6 +7,7 @@
         <div class="col-md-4 text-right">
             <a class="btn" style='padding:8px;margin:15px' (click)="datasAdd()" *ngIf="!addStatus">Add </a>
             <a class="btn" style='padding:8px;margin:15px' (click)="datasRemove()">Delete</a>
+            <a class="btn" style='padding:8px;margin:15px' (click)="datasPrint()">QR Print</a>
         </div>
     </div>
     <ngx-datatable class="material" [columnMode]="'force'" [rows]="addRows" [headerHeight]="50" [footerHeight]="0" [rowHeight]="55" *ngIf="addStatus">
@@ -55,20 +56,23 @@
             <a style="margin:0px;padding:0px;" class="btn" (click)="datasAdd()">Add</a>
           </ng-template>
         </ngx-datatable-column>
-    </ngx-datatable><br />
+    </ngx-datatable>
     <ngx-datatable class="material expandable" [columnMode]="'force'" #myTable [rows]="rows" [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [selectionType]="'checkbox'" (select)='onSelect($event)'>
-        <ngx-datatable-row-detail [rowHeight]="165"> 
+        <ngx-datatable-row-detail [rowHeight]="260">
           <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
-            <div style="padding-left:35px;">
-                 <div title="Double click to edit" (dblclick)="editing[row['key'] + '-ID'] = true" *ngIf="!editing[row['key'] + '-ID']">ID : {{row['ID']}}</div>
+            <div style="padding-top:0px; padding-bottom:0px; width:30%; float:right;"> 
+                 <ngx-qrcode [qrc-element-type]="qrType" [qrc-value]="qrCodes[row['index']]"></ngx-qrcode>
+            </div>
+            <div style="padding-left:35px; width:70%; float:left;">
+                 <div style="padding-bottom:13px;" title="Double click to edit" (dblclick)="editing[row['key'] + '-ID'] = true" *ngIf="!editing[row['key'] + '-ID']">ID : {{idx}} {{row['ID']}}</div>
                  <input autofocus (blur)="updateDetailValue($event, 'ID', row['key'])" *ngIf="editing[row['key'] + '-ID']" type="text" [value]="row['ID']"/>
-                 <div title="Double click to edit" (dblclick)="editing[row['key'] + '-verbose'] = true" *ngIf="!editing[row['key'] + '-verbose']">Verbose : {{row['verbose']}}</div>
+                 <div style="padding-bottom:13px;" title="Double click to edit" (dblclick)="editing[row['key'] + '-verbose'] = true" *ngIf="!editing[row['key'] + '-verbose']">Verbose : {{row['verbose']}}</div>
                  <input autofocus (blur)="updateDetailValue($event, 'verbose', row['key'])" *ngIf="editing[row['key'] + '-verbose']" type="text" [value]="row['verbose']"/>
-                 <div title="Double click to edit" (dblclick)="editing[row['key'] + '-floor'] = true" *ngIf="!editing[row['key'] + '-floor']">Floor : {{row['floor']}}</div>
+                 <div style="padding-bottom:13px;" title="Double click to edit" (dblclick)="editing[row['key'] + '-floor'] = true" *ngIf="!editing[row['key'] + '-floor']">Floor : {{row['floor']}}</div>
                  <input autofocus (blur)="updateDetailValue($event, 'floor', row['key'])" *ngIf="editing[row['key'] + '-floor']" type="text" [value]="row['floor']"/>
-                 <div title="Double click to edit" (dblclick)="editing[row['key'] + '-room'] = true" *ngIf="!editing[row['key'] + '-room']">Room : {{row['room']}}</div>
+                 <div style="padding-bottom:13px;" title="Double click to edit" (dblclick)="editing[row['key'] + '-room'] = true" *ngIf="!editing[row['key'] + '-room']">Room : {{row['room']}}</div>
                  <input autofocus (blur)="updateDetailValue($event, 'room', row['key'])" *ngIf="editing[row['key'] + '-room']" type="text" [value]="row['room']"/>
-                 <div title="Double click to edit" (dblclick)="editing[row['key'] + '-date'] = true" *ngIf="!editing[row['key'] + '-date']">Date : {{row['date']}}</div>
+                 <div style="padding-bottom:13px;" title="Double click to edit" (dblclick)="editing[row['key'] + '-date'] = true" *ngIf="!editing[row['key'] + '-date']">Date : {{row['date']}}</div>
                  <input autofocus (blur)="updateDetailValue($event, 'date', row['key'])" *ngIf="editing[row['key'] + '-date']" type="text" [value]="row['date']"/>
                  <div title="Double click to edit" (dblclick)="editing[row['key'] + '-price'] = true" *ngIf="!editing[row['key'] + '-price']">Price : {{row['price']}}</div>
                  <input autofocus (blur)="updateDetailValue($event, 'price', row['key'])" *ngIf="editing[row['key'] + '-price']" type="text" [value]="row['price']"/>
@@ -101,7 +105,7 @@
             <input autofocus (blur)="updateValue($event, 'serial', rowIndex)" *ngIf="editing[rowIndex+ '-serial']" type="text" [value]="value"/>
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Building" [sortable]="fasle">
+        <ngx-datatable-column name="Building" [sortable]="false">
           <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
             <span title="Double click to edit" (dblclick)="editing[rowIndex + '-building'] = true" *ngIf="!editing[rowIndex + '-building']">
               <strong>{{value}}</strong>

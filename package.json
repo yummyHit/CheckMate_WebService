@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --ec true --port 4567 --host yummyhit.dynu.net",
-    "build": "ng build --prod",
+    "build": "ng build --prod --output-path=public/",
     "lint": "ng lint"
   },
   "private": true,
@@ -32,6 +32,8 @@
     "firebase": "^4.5.0",
     "font-awesome": "^4.7.0",
     "ng2-charts": "^1.6.0",
+    "ng2-opd-popup": "^1.1.21",
+    "ngx-qrcode2": "0.0.5",
     "rxjs": "^5.4.3",
     "zone.js": "^0.8.17"
   },
