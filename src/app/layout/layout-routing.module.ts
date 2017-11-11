@@ -8,6 +8,8 @@ const routes: Routes = [
         children: [
             { path: 'home', loadChildren: './home/home.module#HomeModule' },
             { path: 'datas', loadChildren: './datas/datas.module#DatasModule' },
+            { path: 'graph', loadChildren: './graph/graph.module#GraphModule' },
+            { path: 'lost-chk', loadChildren: './lost-chk/lost-chk.module#LostChkModule' },
             { path: 'qna', loadChildren: './qna/qna.module#QnAModule' },
             { path: 'scheduler', loadChildren: './scheduler/scheduler.module#SchedulerModule' },
             { path: 'about', loadChildren: './about/about.module#AboutModule' },

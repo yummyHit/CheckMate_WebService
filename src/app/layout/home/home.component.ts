@@ -17,17 +17,14 @@ export class HomeComponent implements OnInit {
 
     constructor(private afAuth: AuthService, private router: Router) {
         this.sliders.push({
+            imagePath: 'assets/images/banner1.png',
+            hrefUrl: 'http://terms.naver.com/entry.nhn?docId=3408936&cid=58413&categoryId=58413'
+        }, {
+            imagePath: 'assets/images/banner2.png',
+            hrefUrl: 'https://www.google.com/intl/ko_kr/ads/'
+        }, {
             imagePath: 'assets/images/slider_database.jpg',
-            label: 'You can manage to fixture using database easily',
-            text: 'CheckMate uses firebase to make real-time synchronization secure and easy to manage your data.'
-        }, {
-            imagePath: 'assets/images/slider_qr.jpg',
-            label: 'You can manage to fixture using QR Code.',
-            text: 'CheckMate can manage the fixtures more easily by taking QR Code with the Android app.'
-        }, {
-            imagePath: 'assets/images/slider_fixture.png',
-            label: 'Very simple fixture management service!',
-            text: 'Manage your fixtures more easily with the QR Code that can contain more information.'
+            hrefUrl: 'https://firebase.google.com/?hl=ko'
         });
 
      /*    this.alerts.push({

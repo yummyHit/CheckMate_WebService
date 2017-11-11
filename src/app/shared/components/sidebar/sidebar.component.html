@@ -12,6 +12,12 @@
                     <li>
                         <a [routerLink]="['/layout/datas']" [routerLinkActive]="['router-link-active']" ><span>{{ 'Data Check' | translate }}</span></a>
                     </li>
+                    <li>
+                        <a [routerLink]="['/layout/graph']" [routerLinkActive]="['router-link-active']" ><span>{{ 'Graphical Data' | translate }}</span></a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/layout/lost-chk']" [routerLinkActive]="['router-link-active']" ><span>{{ 'Lost Check' | translate }}</span></a>
+                    </li>
                 </ul>
             </li>
         </div>
@@ -35,9 +41,6 @@
                 <ul class="submenu">
                     <li>
                         <a [routerLink]="['/layout/qna']"><span>{{ 'Contact us' | translate }}</span></a>
-                    </li>
-                    <li>
-                        <a [routerLink]="['/layout/qna']"><span>{{ 'Subscribe' | translate }}</span></a>
                     </li>
                 </ul>
             </li>

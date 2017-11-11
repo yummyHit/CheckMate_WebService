@@ -9,8 +9,6 @@ import {
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
 import {
-    TimelineComponent,
-    NotificationComponent,
     ChatComponent
 } from './components';
 import { StatModule } from '../../shared';
@@ -25,8 +23,6 @@ import { StatModule } from '../../shared';
     ],
     declarations: [
         HomeComponent,
-        TimelineComponent,
-        NotificationComponent,
         ChatComponent
     ]
 })

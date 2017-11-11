@@ -1,0 +1,64 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Lost Check'" [icon]="'fa-bar-chart-o'"></app-page-header>
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <a class="btn" style='padding:8px;margin:15px' (click)="lostCheck()">Check</a>
+        </div>
+    </div>
+    <ngx-datatable class="material" [columnMode]="'force'" #myTable [rows]="lostRows" [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [selectionType]="'checkbox'" (select)='onLostSelect($event)'>
+        <ngx-datatable-column name="Index" [sortable]="false">
+          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+            <strong>{{rowIndex}}</strong>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Product" prop="product" [sortable]="false">
+          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+              <strong>{{value}}</strong>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Serial" [sortable]="false">
+          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+              <strong>{{value}}</strong>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Building" [sortable]="false">
+          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+              <strong>{{value}}</strong>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false" [canAutoResize]="false" [checkboxable]="true">
+              <strong>"Lost"</strong>
+        </ngx-datatable-column>
+    </ngx-datatable>
+    <br/><br/><br/>
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <a class="btn" style='padding:8px;margin:15px' (click)="lostCarry()">Carry</a>
+        </div>
+    </div>
+    <ngx-datatable class="material" [columnMode]="'force'" #myTable [rows]="carryRows" [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [selectionType]="'checkbox'" (select)='onCarrySelect($event)'>
+        <ngx-datatable-column name="Index" [sortable]="false">
+          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+            <strong>{{rowIndex}}</strong>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Product" prop="product" [sortable]="false">
+          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+              <strong>{{value}}</strong>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Serial" [sortable]="false">
+          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+              <strong>{{value}}</strong>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Building" [sortable]="false">
+          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+              <strong>{{value}}</strong>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false" [canAutoResize]="false" [checkboxable]="true">
+              <strong>"Lost"</strong>
+        </ngx-datatable-column>
+    </ngx-datatable>
+</div>

@@ -6,8 +6,9 @@
         </div>
         <div class="col-md-4 text-right">
             <a class="btn" style='padding:8px;margin:15px' (click)="datasAdd()" *ngIf="!addStatus">Add </a>
+            <a class="btn" style='padding:8px;margin:15px' (click)="datasLend()">Lend</a>
             <a class="btn" style='padding:8px;margin:15px' (click)="datasRemove()">Delete</a>
-            <a class="btn" style='padding:8px;margin:15px' (click)="datasPrint()">QR Print</a>
+            <a class="btn" style='padding:8px;margin:15px' *ngIf="qrStatus"><app-qrprint></app-qrprint></a>
         </div>
     </div>
     <ngx-datatable class="material" [columnMode]="'force'" [rows]="addRows" [headerHeight]="50" [footerHeight]="0" [rowHeight]="55" *ngIf="addStatus">
@@ -23,7 +24,7 @@
         </ngx-datatable-column>
         <ngx-datatable-column name="Serial" [resizeable]="false" [sortable]="false">
           <ng-template ngx-datatable-cell-template>
-            <input type="text" style="padding-left:0px;" class="form-control form-control-sm" id="datas.addSerial" placeholder="ex)20001005">
+            <input type="number" style="padding-left:0px;" class="form-control form-control-sm" id="datas.addSerial" placeholder="ex)20001005">
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name="Building" [resizeable]="false" [sortable]="false">
@@ -43,12 +44,12 @@
         </ngx-datatable-column>
         <ngx-datatable-column name="Date" [resizeable]="false" [sortable]="false">
           <ng-template ngx-datatable-cell-template>
-            <input type="text" style="padding-left:0px;" class="form-control form-control-sm" id="datas.addDate" placeholder="ex)2000-10-03">
+            <input type="date" value="YYYY-MM-DD" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" style="padding-left:0px;" class="form-control form-control-sm" id="datas.addDate" placeholder="ex)2000-10-03">
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name="Price" [resizeable]="false" [sortable]="false">
           <ng-template ngx-datatable-cell-template>
-            <input type="text" style="padding-left:0px;" class="form-control form-control-sm" id="datas.addPrice" placeholder="ex)30,000">
+            <input type="number" style="padding-left:0px;" class="form-control form-control-sm" id="datas.addPrice" placeholder="ex)30,000">
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column [width]="65" [resizeable]="false" [sortable]="false" [draggable]="false" [canAutoResize]="false" [frozenRight]="true">
@@ -57,6 +58,7 @@
           </ng-template>
         </ngx-datatable-column>
     </ngx-datatable>
+    <br/><br/>
     <ngx-datatable class="material expandable" [columnMode]="'force'" #myTable [rows]="rows" [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [selectionType]="'checkbox'" (select)='onSelect($event)'>
         <ngx-datatable-row-detail [rowHeight]="260">
           <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
@@ -64,7 +66,7 @@
                  <ngx-qrcode [qrc-element-type]="qrType" [qrc-value]="qrCodes[row['index']]"></ngx-qrcode>
             </div>
             <div style="padding-left:35px; width:70%; float:left;">
-                 <div style="padding-bottom:13px;" title="Double click to edit" (dblclick)="editing[row['key'] + '-ID'] = true" *ngIf="!editing[row['key'] + '-ID']">ID : {{idx}} {{row['ID']}}</div>
+                 <div style="padding-bottom:13px;" title="Double click to edit" (dblclick)="editing[row['key'] + '-ID'] = true" *ngIf="!editing[row['key'] + '-ID']">ID : {{row['ID']}}</div>
                  <input autofocus (blur)="updateDetailValue($event, 'ID', row['key'])" *ngIf="editing[row['key'] + '-ID']" type="text" [value]="row['ID']"/>
                  <div style="padding-bottom:13px;" title="Double click to edit" (dblclick)="editing[row['key'] + '-verbose'] = true" *ngIf="!editing[row['key'] + '-verbose']">Verbose : {{row['verbose']}}</div>
                  <input autofocus (blur)="updateDetailValue($event, 'verbose', row['key'])" *ngIf="editing[row['key'] + '-verbose']" type="text" [value]="row['verbose']"/>
@@ -84,12 +86,12 @@
             <a [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded" title="Expand/Collapse Row" (click)="toggleExpandRow(row)"></a>
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Index">
+        <ngx-datatable-column name="Index" [sortable]="false">
           <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
             <strong>{{rowIndex}}</strong>
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Product" prop="product" [sortable]="false">
+        <ngx-datatable-column name="Product" [sortable]="false">
           <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
             <span title="Double click to edit" (dblclick)="editing[rowIndex + '-product'] = true" *ngIf="!editing[rowIndex + '-product']">
               <strong>{{value}}</strong>
@@ -97,7 +99,7 @@
             <input autofocus (blur)="updateValue($event, 'product', rowIndex)" *ngIf="editing[rowIndex+ '-product']" type="text" [value]="value"/>
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column name="Serial" [sortable]="false">
+        <ngx-datatable-column name="Serial" prop="serial" [sortable]="false">
           <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
             <span title="Double click to edit" (dblclick)="editing[rowIndex + '-serial'] = true" *ngIf="!editing[rowIndex + '-serial']">
               <strong>{{value}}</strong>

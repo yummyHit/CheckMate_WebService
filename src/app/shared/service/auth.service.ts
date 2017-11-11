@@ -18,6 +18,12 @@ export class AuthService{
     private companyAuth: boolean;
     private QRkey: any[];
     private QRdata: any[][];
+    private lendQRkey: any[];
+    private lendQRdata: any[][];
+    private lostDataKey: any[];
+    private lostData: any[][];
+    private selectedQR: string[];
+    private schedulerData: any[];
 
     constructor(private afAuth: AngularFireAuth, private db: AngularFireDatabase, private router: Router) {
         this.authState = this.afAuth.authState
@@ -218,6 +224,9 @@ export class AuthService{
             })
             .then(() => {
 		        this.QRDataSetting(user);
+		        this.lendQRDataSetting(user);
+                        this.updateLostDatas(user);
+                        this.SchedulerDataSetting(user);
                 this.router.navigate(['/layout'])
             })
         }
@@ -279,6 +288,35 @@ export class AuthService{
         })
     }
 
+    private lendQRDataSetting(user: any) {
+        let qrPath = `deletedQR/${user.companyName}`;
+        this.db.list(qrPath, { preserveSnapshot: true }).subscribe(snapshots => {
+            this.lendQRkey = [];
+            this.lendQRdata = [];
+            snapshots.forEach(snapshot => {
+                this.lendQRkey.push(snapshot.key);
+            })
+            for(let i = 0; i < this.lendQRkey.length; i++) {
+                this.lendQRdata[i] = [];
+                this.db.object(qrPath + "/" + this.lendQRkey[i]).take(1).subscribe(data => {
+                    this.lendQRdata[i].push(
+                        data.adminID,
+                        data.companyName,
+                        data.productName,
+                        data.detailedProductName,
+                        data.serialNumber,
+                        data.building,
+                        data.floor,
+                        data.roomName,
+                        data.date,
+                        data.price,
+                        data.lendDate
+                    )
+                })
+            }
+        })
+    }
+
     updateQRDatas(datas: any[], key: string) {
         let qrData = {
             productName: datas['product'],
@@ -303,7 +341,41 @@ export class AuthService{
         }
     }
 
-    removeQRData(key: string[]) {
+    lendQRData(datas: any[][], key: string[], lendDates: any[]) {
+        if(confirm('Are you sure lend to selected datas?')) {
+            let qrData = [];
+            for(let i = 0; i < datas.length; i++) {
+                qrData.push({
+                    productName: datas[i]['product'],
+                    detailedProductName: datas[i]['verbose'],
+                    serialNumber: datas[i]['serial'],
+                    companyName: datas[i]['company'],
+                    building: datas[i]['building'],
+                    floor: datas[i]['floor'],
+                    roomName: datas[i]['room'],
+                    date: datas[i]['date'],
+                    adminID: datas[i]['ID'],
+                    price: datas[i]['price'],
+                    lendDate: lendDates[i]
+                })
+            }
+            for(let i = 0; i < key.length; i++) {
+                this.db.object(`QR/${this.companyName}`).$ref.child(key[i]).remove()
+                    .catch(error => {
+                        console.log(error),
+                        alert("lendQRData Error")
+                    })
+                this.db.object(`deletedQR/${this.companyName}/${key[i]}`).update(qrData[i])
+                    .catch(error => {
+                        console.log(error),
+                        alert("lendQRData Error")
+                    })
+            }
+            return true;
+        } else return false;
+    }
+
+    removeQRData(datas: any[][], key: string[]) {
         if(confirm('Are you sure delete selected datas?')) {
             for(let i = 0; i < key.length; i++) {
                 this.db.object(`QR/${this.companyName}`).$ref.child(key[i]).remove()
@@ -314,6 +386,79 @@ export class AuthService{
             }
             return true;
         } else return false;
+    }
+
+    removeLostData(datas: any[][], serial: string[]) {
+        if(confirm('Are you sure Permit selected lost datas?')) {
+            for(let i = 0; i < serial.length; i++) {
+                this.db.object(`Ask/${this.companyName}`).$ref.child(serial[i]).remove()
+                    .catch(error => {
+                        console.log(error),
+                        alert("removeLostData Error")
+                    })
+            }
+            return true;
+        } else return false;
+    }
+
+    private updateLostDatas(user: any) {
+        let lostPath = `Ask/${user.companyName}`;
+        this.db.list(lostPath, { preserveSnapshot: true }).subscribe(snapshots => {
+            this.lostData = [];
+            snapshots.forEach(snapshot => {
+                this.lostDataKey.push(snapshot.key);
+            })
+            for(let i = 0; i < this.lostDataKey.length; i++) {
+                this.lostData[i] = [];
+                this.db.object(`QR/${user.companyName}/` + this.lostDataKey[i]).take(1).subscribe(data => {
+                    this.lostData[i].push(
+                        data.adminID,
+                        data.companyName,
+                        data.productName,
+                        data.detailedProductName,
+                        data.serialNumber,
+                        data.building,
+                        data.floor,
+                        data.roomName,
+                        data.date,
+                        data.price,
+                        data.lendDate
+                    )
+                })
+            }
+        })
+    }
+
+    private SchedulerDataSetting(user: any) {
+        let schedulerPath = `Calendar/${user.companyName}`;
+        this.db.list(schedulerPath, { preserveSnapshot: true }).subscribe(snapshots => {
+            this.schedulerData = [];
+            snapshots.forEach(snapshot => {
+                this.schedulerData.push({date: snapshot.key, content: snapshot.val()});
+            })
+        })
+    }
+
+    updateSchedulerData(content: any, date: any) {
+        let putDate;
+        if((new Date(date).getUTCDate() + 1) < 10) putDate = "" + (new Date(date).getUTCFullYear()) + "-" + (new Date(date).getUTCMonth() + 1) + "-0" + (new Date(date).getUTCDate() + 1);
+        else putDate = "" + (new Date(date).getUTCFullYear()) + "-" + (new Date(date).getUTCMonth() + 1) + "-" + (new Date(date).getUTCDate() + 1);
+        this.db.object(`Calendar/${this.companyName}/`).$ref.child(putDate).set(content)
+            .catch(error => {
+                console.log(error),
+                alert("updateSchedulerDatas Error")
+            })
+    }
+
+    removeSchedulerData(date: any) {
+        let putDate;
+        if((new Date(date).getUTCDate() + 1) < 10) putDate = "" + (new Date(date).getUTCFullYear()) + "-" + (new Date(date).getUTCMonth() + 1) + "-0" + (new Date(date).getUTCDate() + 1);
+        else putDate = "" + (new Date(date).getUTCFullYear()) + "-" + (new Date(date).getUTCMonth() + 1) + "-" + (new Date(date).getUTCDate() + 1);
+        this.db.object(`Calendar/${this.companyName}/`).$ref.child(putDate).remove()
+            .catch(error => {
+                console.log(error),
+                alert("removeSchedulerData Error")
+            })
     }
 
     logout(): void {
@@ -331,6 +476,15 @@ export class AuthService{
             .catch((error) => console.log(error))
     }
 
+    setSelectedQR(qrData: string, index: number) {
+        if(index === 0) this.selectedQR = [];
+        this.selectedQR.push(qrData);
+    }
+
+    setSchedulerData(date: string, content: string) {
+       
+    }
+
     valueClear() {
         this.nowUser = null;
         this.companyName = null;
@@ -341,6 +495,11 @@ export class AuthService{
         this.companyAuth = false;
         this.QRkey = [];
         this.QRdata = [];
+        this.lendQRkey = [];
+        this.lendQRdata = [];
+        this.lostDataKey = [];
+        this.lostData = [];
+        this.schedulerData = [];
     }
 
     getNowUserEmail() {
@@ -370,5 +529,25 @@ export class AuthService{
 
     getQRData() {
         return this.QRdata;
+    }
+
+    getLendQRKey() {
+        return this.lendQRkey;
+    }
+
+    getLendQRData() {
+        return this.lendQRdata;
+    }
+
+    getLostData() {
+        return this.lostData;
+    }
+
+    getSelectedQR() {
+        return this.selectedQR;
+    }
+
+    getSchedulerDatas() {
+        return this.schedulerData;
     }
 }

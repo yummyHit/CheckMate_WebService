@@ -1,0 +1,28 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Graph'" [icon]="'fa-bar-chart-o'"></app-page-header>
+    <div class="row">
+        <div class="col col-sm-6">
+            <div class="card mb-3">
+                <div class="card-header">
+                    Daily Chart
+                </div>
+                <div class="card-block">
+                    <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType">
+                    </canvas>
+                </div>
+                <div class="card-footer"><br/></div>
+            </div>
+        </div>
+        <div class="col col-sm-6">
+            <div class="card mb-3">
+                <div class="card-header">
+                    Monthly Chart
+                </div>
+                <div class="card-block">
+                    <canvas baseChart height="180px" [data]="doughnutChartData" [labels]="doughnutChartLabels" [chartType]="doughnutChartType">
+                    </canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

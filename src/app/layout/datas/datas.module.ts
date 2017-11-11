@@ -6,6 +6,7 @@ import { NgxQRCodeModule } from 'ngx-qrcode2';
 import { DatasRoutingModule } from './datas-routing.module';
 import { DatasComponent } from './datas.component';
 import { PageHeaderModule } from '../../shared';
+import { QrprintComponent } from './qrprint/qrprint.component';
 
 @NgModule({
     imports: [
@@ -15,6 +16,9 @@ import { PageHeaderModule } from '../../shared';
         DatasRoutingModule,
         PageHeaderModule
     ],
-    declarations: [DatasComponent]
+    declarations: [
+        DatasComponent,
+        QrprintComponent
+    ]
 })
 export class DatasModule { }
